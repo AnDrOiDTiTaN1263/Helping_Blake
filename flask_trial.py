@@ -11,7 +11,7 @@ class user:
 
 users =[]
 users.append(user(id=1, username='admin', password='admin'))
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username =  request.form['username']
