@@ -3,14 +3,29 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask import url_for
 from flask import request
 app = Flask(__name__)
-@app.route('/login', methods=['GET', 'POST'])
+
+class user:
+    def __init__(self, id, username, password) :
+        self.id = id
+        self.username= username
+        self.password = password
+
+users =[]
+users.append(user(id=1, username='admin', password='admin'))
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid credentials for administrative account'
-        else:
-            return redirect(url_for('questions'))
-    return render_template('login.html', error= error)
+        username =  request.form['username']
+        password = request.form['password']
+        user = [x for x in users if x.username == username][0]
+        if user and user.password == password:
+            return redirect(url_for('home'))
+    else:
+        return render_template('login.html')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
 if __name__ == "__main__":
     app.run()
