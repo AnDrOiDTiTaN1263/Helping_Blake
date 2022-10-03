@@ -1,21 +1,16 @@
-from crypt import methods
-from fileinput import filename
-from click import password_option
 
-
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 from flask import url_for
 from flask import request
 app = Flask(__name__)
-@app.route('/',methods=['GET', 'POST'])
-def home():
-    return render_template('index.html')
-@app.route('/', methods=['GET' 'POST'])
-def check_creds():
-    if request.method=='GET':
-        return f"The URL /data is accessed directly. Try going to '/form'"
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
     if request.method == 'POST':
-        form_data = request.form
-        return render_template('questions.html', form_data = form_data)
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid credentials for administrative account'
+        else:
+            return redirect(url_for('questions'))
+    return render_template('login.html', error= error)
 if __name__ == "__main__":
     app.run()

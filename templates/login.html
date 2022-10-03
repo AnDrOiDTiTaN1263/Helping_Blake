@@ -8,6 +8,8 @@
             <input type="text" name="password"></input>
             <input type="submit"></input>
         </form>
-        
+        {%if error%}
+            <p class = 'error'><strong>error:</strong>{{error}}</p>
+        {endif}
     </body>
     </html>
